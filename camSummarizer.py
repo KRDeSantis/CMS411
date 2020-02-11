@@ -3,7 +3,7 @@
 Created on Mon Feb 10 18:20:04 2020
 
 @author: Thomas Csorba
-Copy of  code
+Copy of code
 """
 
 # From YouTube tutorial: https://www.youtube.com/watch?v=XcZGKAF5zxg
