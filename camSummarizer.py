@@ -25,8 +25,8 @@ nlp = spacy.load('en_core_web_md')
 docx = nlp(document1)
 
 # Print out
-for token in docx:
-	print(token.text)
+#for token in docx:
+#	print(token.text)
 
 # Word Frequency Table
 word_frequencies = {}
