@@ -1,0 +1,15 @@
+#Separating sentences#
+#Kelley DeSantis#
+
+#import packages#
+import spacy
+import docx2txt
+
+#Document to read in #
+document1 = docx2txt.process("ReadInFile.docx")
+nlp = spacy.load("en_core_web_sm")
+doc = nlp(document1)
+
+#seperate sentences#
+for sent in doc.sents:
+    print(sent.text)
