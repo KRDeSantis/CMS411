@@ -15,7 +15,7 @@ import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 
 # change the text to whatever document you want to process.
-document1 = docx2txt.process("test1.docx")  #### File location
+document1 = docx2txt.process("../Copy of Sources Sought Synopsis Manuals 8 Jan 2020")  #### File location
 
 stopwords = list(STOP_WORDS)
 
@@ -86,11 +86,14 @@ for sent, reason in zip(sentenceList, reasonList):
     print(str(sent) + "\n" + reason + "\n\n")
 
 
-# if the word frequency is greater than the least frequent
-# word or words, print out the word we're on in the loop
-# and how often it occurs
-"""
-for w in word_frequencies:
-    if (word_frequencies[w]/maximum_frequency) > lowest_freq:
-       print(w, word_frequencies[w])
-"""
+
+
+
+
+
+
+
+
+
+
+
