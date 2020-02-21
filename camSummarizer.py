@@ -31,17 +31,18 @@ docx = nlp(document1)
 # Word Frequency Table
 word_frequencies = {}
 for word in docx:
-	if word.text not in stopwords:
-		if word.text not in word_frequencies.keys():
-			word_frequencies[word.text] = 1
-		else:
-			word_frequencies[word.text] += 1
+    if word.text not in stopwords:
+        if word.is_oov is False:
+            if word.text not in word_frequencies.keys():
+                word_frequencies[word.text] = 1
+            else:
+                word_frequencies[word.text] += 1
 
 # Maximum Frequency
 maximum_frequency = max(word_frequencies.values())
 
 for word in word_frequencies.keys():
-	word_frequencies[word] = (word_frequencies[word]/maximum_frequency)
+    word_frequencies[word] = (word_frequencies[word]/maximum_frequency)
 
 
 #### Sentence Tokenization
