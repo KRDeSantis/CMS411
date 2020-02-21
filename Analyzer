@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Feb 11 18:20:04 2020
-@author: Thomas Csorba
+@author: Thomas Csorba, Ethan Dyer
 Commented and edited version of the summarizer cam found
 This version specifically checks for words that occur more
 frequently than the least frequently used word or words
@@ -37,48 +37,40 @@ for word in docx:
         else:
             word_frequencies[word.text] += 1
 
-# Maximum Frequency
-maximum_frequency = max(word_frequencies.values())
 
-# Lowest frequency gets compared against a decimal,
-# because word_frequencies[w]/maximum_frequency is the
-# proportion of the amount of times a specific word occurs
-# compared against the most frequent word. This is why
-# lowest_freq is 1, because unless the document only has
-# one word repeated over and over, the word with the lowest
-# frequency should be chosen
-limit =0
+limit =1 # words can only appear limit times. (reverse document frequency)
 
+# find all words that appear limit times or less and put them into a list
 lowest_freq =[]
 for w in word_frequencies:
     if (word_frequencies[w] ) <= limit:
         lowest_freq.append(w)
 
-sentenceList = []
+sentenceList = []#sentences that will be outputted
 keyWords= ["Scope", "Background", "Contract", "Contractor",
-           "Requirements", "Summary", "Synopsis", "Conclusion",
-           "Performance Work Statement "]
-reasonList = [];
+           "Requirements", "Summary", "Synopsis", "Conclusion"]# current list of keyWords
+reasonList = [] # reason a sentence was chosen
 
+# for every sentence
 for sent in docx.sents:
-    breakFlag = False
-    for word in sent:
+    breakFlag = False # break flag to get out of loops if sentence is already chosen
+    for word in sent:# for every word in that sentence
         if(breakFlag):
            break
-        for w in word_frequencies:
+        for w in lowest_freq:# for every word less that occurs limit times or less
             if(breakFlag):
                 break
-            if(w == str(word)):
-                sentenceList.append(sent)
-                reasonList.append(w + ":" + str(word_frequencies[w]))
-                breakFlag = True
-        for key in keyWords:
+            if(str(word) == w):# does the word equal the current lowest freq word
+                sentenceList.append(sent)#if so add the sentence
+                reasonList.append(w + ":" + str(word_frequencies[w]))# and put w as the reason
+                breakFlag = True# go to next sentence
+        for key in keyWords:# go through all keywords
             if(breakFlag):
                 break
-            if(str(word) == key):
-                sentenceList.append(sent)
-                reasonList.append(key)
-                breakFlag = True
+            if(str(word)==key):# see if key is current word
+                sentenceList.append(sent)# if so add the sentence
+                reasonList.append(key)# the key is the reason
+                breakFlag = True# go to next sentence 
 
 
 # print normal word frequencies
