@@ -87,5 +87,5 @@ for w in word_frequencies:
        print(w, word_frequencies[w])
 """
 '''
-Lemmatize, do word frequencies, then split the nested for loops into two different parts for different information
+Lemmatize, do word frequencies (not allowing OOV stuff), then split the nested for loops into two different parts for different information
 '''
