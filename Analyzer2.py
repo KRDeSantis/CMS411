@@ -86,3 +86,6 @@ for w in word_frequencies:
     if (word_frequencies[w]/maximum_frequency) > lowest_freq:
        print(w, word_frequencies[w])
 """
+'''
+Lemmatize, do word frequencies, then split the nested for loops into two different parts for different information
+'''
