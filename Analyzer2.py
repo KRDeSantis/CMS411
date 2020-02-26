@@ -31,8 +31,8 @@ word_frequencies = {}
 
 
 for word in docx:    
-    if word.lemma_ not in stopwords:
-        if word.text not in word_frequencies.keys() or word.text.isnumeric() == False:
+    if word.lemma_ not in stopwords and word.is_oov == False:
+        if word.text not in word_frequencies.keys():
             word_frequencies[word.text] = 1
         else:
             word_frequencies[word.text] += 1
@@ -85,10 +85,11 @@ for sent in docx.sents:
         for key in keyWords:# go through all keywords
             if(breakFlag):
                 break
-            if(word.is_oov == False and key.similarity(word) >= .7):# see if key is current word
-                sentenceList.append(sent)# if so add the sentence
-                reasonList.append(str(key))# the key is the reason
-                breakFlag = True# go to next sentence 
+            for token in key:                     
+                if(word.has_vector == True and key.similarity(word) >= .7):# see if key is similar to current word if in vocab
+                    sentenceList.append(sent)# if so add the sentence
+                    reasonList.append(str(key))# the key is the reason
+                    breakFlag = True# go to next sentence 
 
 
 # print normal word frequencies
