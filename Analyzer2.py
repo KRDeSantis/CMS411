@@ -30,15 +30,15 @@ docx = nlp(document1)
 word_frequencies = {}
 
 
-for word in docx:
-    if word.text not in stopwords:
-        if word.text not in word_frequencies.keys():
+for word in docx:    
+    if word.lemma_ not in stopwords:
+        if word.text not in word_frequencies.keys() or word.text.isnumeric() == False:
             word_frequencies[word.text] = 1
         else:
             word_frequencies[word.text] += 1
 
 
-limit =1 # words can only appear limit times. (reverse document frequency)
+limit = 1 # words can only appear limit times. (reverse document frequency)
 
 # find all words that appear limit times or less and put them into a list
 lowest_freq =[]
@@ -47,9 +47,12 @@ for w in word_frequencies:
         lowest_freq.append(w)
 
 sentenceList = []#sentences that will be outputted
-keyWords= ["Scope", "Background", "Contract", "Contractor",
-           "Requirements", "Summary", "Synopsis", "Conclusion"]# current list of keyWords
+keyWords= [nlp("Scope"), nlp("Background"), nlp("Contract"), nlp("Contractor"),
+           nlp("Requirements"), nlp("Summary"), nlp("Synopsis"), nlp("Conclusion")]# current list of keyWords
 reasonList = [] # reason a sentence was chosen
+
+
+input("To start lowest frequency search, press any key")
 
 # for every sentence
 for sent in docx.sents:
@@ -62,14 +65,29 @@ for sent in docx.sents:
                 break
             if(str(word) == w):# does the word equal the current lowest freq word
                 sentenceList.append(sent)#if so add the sentence
-                reasonList.append(w + ":" + str(word_frequencies[w]))# and put w as the reason
+                reasonList.append(w + ": " + str(word_frequencies[w]))# and put w as the reason
                 breakFlag = True# go to next sentence
+                
+for sent, reason in zip(sentenceList, reasonList):
+    print(str(sent) + "\n" + reason + "\n\n")                
+             
+sentenceList *= 0
+reasonList *= 0    
+    
+input("To start keyword finding, press any key")               
+                
+                
+for sent in docx.sents:
+    breakFlag = False # break flag to get out of loops if sentence is already chosen
+    for word in sent:# for every word in that sentence
+        if(breakFlag):
+           break                
         for key in keyWords:# go through all keywords
             if(breakFlag):
                 break
-            if(str(word)==key):# see if key is current word
+            if(word.is_oov == False and key.similarity(word) >= .7):# see if key is current word
                 sentenceList.append(sent)# if so add the sentence
-                reasonList.append(key)# the key is the reason
+                reasonList.append(str(key))# the key is the reason
                 breakFlag = True# go to next sentence 
 
 
