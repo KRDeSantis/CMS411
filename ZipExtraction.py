@@ -13,9 +13,16 @@ import docx2txt
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 
-#document = zipfile.Zipfile("Copy of Sources Sought Synopsis Manuals 8 Jan 2020.docx")
+document = zipfile.ZipFile("Copy of Sources Sought Synopsis Manuals 8 Jan 2020.docx")
 
-zipfile.ZipFile("Copy of Sources Sought Synopsis Manuals 8 Jan 2020.docx", 'r')
+#zipfile.ZipFile("Copy of Sources Sought Synopsis Manuals 8 Jan 2020.docx", 'r')
 
+print(document.read("word/document.xml"))
+'''
+https://towardsdatascience.com/how-to-extract-data-from-ms-word-documents-using-python-ed3fbb48c122
+https://gist.github.com/etienned/7539105
+http://www.ecma-international.org/news/TC45_current_work/Office%20Open%20XML%20Part%204%20-%20Markup%20Language%20Reference.pdf
+http://www.ecma-international.org/news/TC45_current_work/TC45_available_docs.htm
+https://www.toptal.com/xml/an-informal-introduction-to-docx
 
-
+'''
