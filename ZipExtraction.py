@@ -19,10 +19,11 @@ document = zipfile.ZipFile("Copy of Sources Sought Synopsis Manuals 8 Jan 2020.d
 docString = document.read("word/document.xml")
 docXArr = []
 docXArr = docString.split()
-
+print(docString)
+'''
 for sent in docXArr:
     print(sent)
-
+'''
 #print(document.read("word/document.xml"))
 '''
 https://towardsdatascience.com/how-to-extract-data-from-ms-word-documents-using-python-ed3fbb48c122
