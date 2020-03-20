@@ -1,0 +1,81 @@
+
+
+
+# From YouTube tutorial: https://www.youtube.com/watch?v=XcZGKAF5zxg
+# Packages
+import docx2txt
+
+import spacy
+from spacy.lang.en.stop_words import STOP_WORDS
+from spacy.lemmatizer import Lemmatizer
+from spacy.lookups import Lookups
+from collections import defaultdict
+
+
+
+# change the text to whatever document you want to process.
+document1 = docx2txt.process("test1.docx")  #### File location
+NUM_SENT=3
+stopwords = list(STOP_WORDS)
+
+len(stopwords)
+nlp = spacy.load('en_core_web_md')
+docx = nlp(document1)
+
+
+# Creates a list of non-stopwords and adds a counter for
+# how often they occur in the document
+word_frequencies = {}
+words = []
+lookups=Lookups()
+lemmatizer=Lemmatizer(lookups)
+
+
+for word in docx:
+    if word.text not in stopwords:
+        if word.text not in word_frequencies.keys():
+            word_frequencies[lemmatizer.lookup(word.text)] = 1
+            if lemmatizer.lookup(word.text) not in words:
+                words.append(lemmatizer.lookup(word.text))
+
+        else:
+            word_frequencies[lemmatizer.lookup(word.text)] += 1
+
+sentenceList = []
+topTotals = []
+
+def bubble_sort(arrNum, arrStr):
+    def swapNum(i, j):
+        arrNum[i], arrNum[j] = arrNum[j], arrNum[i]
+    def swapStr(i, j):
+        arrStr[i], arrStr[j] = arrStr[j], arrStr[i]
+    n = len(arrNum)
+    swapped = True
+
+    x = -1
+    while swapped:
+        swapped = False
+        x = x + 1
+        for i in range(1, n - x):
+            if arrNum[i - 1] < arrNum[i]:
+                swapNum(i - 1, i)
+                swapStr(i - 1, i)
+                swapped = True
+
+
+
+    return arrStr
+
+for sent in docx.sents:
+    sentenceTotal = 0
+    for word in sent:
+        sentenceTotal += word_frequencies.get(lemmatizer.lookup(word.text),0)
+    topTotals.append(sentenceTotal)
+    sentenceList.append(sent)
+sentenceList = bubble_sort(topTotals, sentenceList)
+
+
+
+
+for i in range(0,NUM_SENT):
+    print(str(sentenceList[i]))
