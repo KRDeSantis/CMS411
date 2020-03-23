@@ -2,6 +2,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize, sent_tokenize
+import docx2txt
 
 text_str = '''
 E-4B National Airborne Operations Center (NAOC)
@@ -305,5 +306,6 @@ def run_summarization(text):
 
 
 if __name__ == '__main__':
-    result = run_summarization(text_str)
+    document = docx2txt.process("(Edited) Copy of Sources_Sought_Trainer_LFTS.docx")
+    result = run_summarization(document)
     print(result)
