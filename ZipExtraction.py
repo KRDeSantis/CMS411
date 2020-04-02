@@ -18,8 +18,8 @@ document = zipfile.ZipFile("Copy of Sources Sought Synopsis Manuals 8 Jan 2020.d
 #zipfile.ZipFile("Copy of Sources Sought Synopsis Manuals 8 Jan 2020.docx", 'r')
 docString = document.read("word/document.xml")
 docXArr = []
-dik = str(docString)
-docXArr = dik.split("<w")
+Sent = str(docString)
+docXArr = Sent.split("<w")
 #print(docString)
 
 for sent in docXArr:
