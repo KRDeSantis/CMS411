@@ -1,7 +1,0 @@
-from docx import Document
-document2 = Document("test1.docx")
-
-
-for par in document2.paragraphs:
-    if(par.style.name.startswith('Heading')):
-        print(par.text)
