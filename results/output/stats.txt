@@ -4,3 +4,4 @@ documents processed : 11
 
 average time per document : 14.363636363636363 seconds 
 
+Calculated time for 2000 documents: 8.33 Hours
