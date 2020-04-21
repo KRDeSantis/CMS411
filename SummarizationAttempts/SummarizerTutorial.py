@@ -1,8 +1,16 @@
+'''
+This summarizer was one found by Kelly to try and see its usefulness in our research
+This summarizer uses NLTK, another python package that is used in natural language processing
+'''
+
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize, sent_tokenize
 import docx2txt
+
+#This next variable was done for quick and dirty access to the information of one 
+#of the documents so that it could be processed
 
 text_str = '''
 E-4B National Airborne Operations Center (NAOC)
@@ -194,7 +202,8 @@ The following CDRLs apply to this delivery order and shall be submitted as descr
 
 '''
 
-
+#Takes in a string and creates a table that holds the word in a dictionary that, once all non-stopwords
+#are in the dictionary, gets returned.
 def _create_frequency_table(text_string) -> dict:
     """
     we create a dictionary for the word frequency table.
@@ -208,18 +217,23 @@ def _create_frequency_table(text_string) -> dict:
     ps = PorterStemmer()
 
     freqTable = dict()
+    #In the tokenized string, split it into the individual words
     for word in words:
+        #Get the root, stem, or base form of the word
         word = ps.stem(word)
+        #If it is a stopword, ignore the word and move on to the next
         if word in stopWords:
             continue
+        #If the word is in our frequency table, increase its frequency at that spot in the dictionary
         if word in freqTable:
             freqTable[word] += 1
+        #Otherwise, we found a new word, so we add that word to the dictionary
         else:
             freqTable[word] = 1
 
     return freqTable
 
-
+#Takes in the tokenized document and the frequency table that is a dictionary and scores the sentences
 def _score_sentences(sentences, freqTable) -> dict:
     """
     score a sentence by its words
@@ -228,9 +242,11 @@ def _score_sentences(sentences, freqTable) -> dict:
     """
 
     sentenceValue = dict()
-
+    #For each sentence in our document, if the word is in our frequency table (IE it is a nonstopword)
+    #increase a counter of how many nonstopwords there are and increase the sentence value using the 
+    #value of the word from the dictionary
     for sentence in sentences:
-        word_count_in_sentence = (len(word_tokenize(sentence)))
+        #word_count_in_sentence = (len(word_tokenize(sentence)))
         word_count_in_sentence_except_stop_words = 0
         for wordValue in freqTable:
             if wordValue in sentence.lower():
@@ -253,7 +269,8 @@ def _score_sentences(sentences, freqTable) -> dict:
 
     return sentenceValue
 
-
+#Finds the average score of the all the sentences in the document and returns it.
+#This is used as the threshold in the generate summary function
 def _find_average_score(sentenceValue) -> int:
     """
     Find the average score from the sentence value dictionary
@@ -268,11 +285,13 @@ def _find_average_score(sentenceValue) -> int:
 
     return average
 
-
+#Generates a summary based on the threshold, which is typically the threshold multiplied
+#by some value, in the initial case, 1.5. Threshold is based off of what is returned from
+#_find_average_score
 def _generate_summary(sentences, sentenceValue, threshold):
     sentence_count = 0
     summary = ''
-
+    #
     for sentence in sentences:
         if sentence[:10] in sentenceValue and sentenceValue[sentence[:10]] >= (threshold):
             summary += " " + sentence
@@ -280,7 +299,7 @@ def _generate_summary(sentences, sentenceValue, threshold):
 
     return summary
 
-
+#Takes in the text and runs all the functions required for creating a summary from it.
 def run_summarization(text):
     # 1 Create the word frequency table
     freq_table = _create_frequency_table(text)
@@ -304,7 +323,7 @@ def run_summarization(text):
 
     return summary
 
-
+#In main, start running summarization on the document specified.
 if __name__ == '__main__':
     document = docx2txt.process("(Edited) Copy of Sources_Sought_Trainer_LFTS.docx")
     result = run_summarization(document)

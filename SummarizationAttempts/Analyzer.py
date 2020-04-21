@@ -15,8 +15,9 @@ import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 
 # change the text to whatever document you want to process.
-document1 = docx2txt.process("Copy of Sources Sought Synopsis Manuals 8 Jan 2020.docx")  #### File location
+document1 = docx2txt.process("Copy of Sources Sought Synopsis Manuals 8 Jan 2020.docx")
 
+#List of words that are so common that they add nothing to the information of a sentence
 stopwords = list(STOP_WORDS)
 
 len(stopwords)
@@ -29,7 +30,8 @@ docx = nlp(document1)
 # how often they occur in the document
 word_frequencies = {}
 
-
+#For each word in the document, if it isnt a stopword, add it to our wordFrequencies or increase its 
+#value as necessary
 for word in docx:
     if word.text not in stopwords:
         if word.text not in word_frequencies.keys():
@@ -53,18 +55,25 @@ lowest_freq =[]
 for w in word_frequencies:
     if (word_frequencies[w] ) <= limit:
         lowest_freq.append(w)
-
+        
+#The sentences that were chosen by the analyzer
 sentenceList = []
+#Keywords are words that we found were common or came up a lot in a specific document
+#These could be helpful in determining what sections, sentences, etc. are important to a document
 keyWords= ["Scope", "Background", "Contract", "Contractor",
-           "Requirements", "Summary", "Synopsis", "Conclusion",
-           "Performance Work Statement "]
-reasonList = [];
+           "Requirements", "Summary", "Synopsis", "Conclusion"]
+#The reasons why the sentences were chosen by the analyzer
+reasonList = []
 
+#for each word in the document, if the word is in the word frequencies, then we
+#append the originating sentence to the reason list with the word that is the reason why
+#it was chosen
 for sent in docx.sents:
     breakFlag = False
     for word in sent:
         if(breakFlag):
            break
+       #If the word is in the word frequencies, then make it the reason why the sentence was chosen
         for w in word_frequencies:
             if(breakFlag):
                 break
@@ -72,6 +81,7 @@ for sent in docx.sents:
                 sentenceList.append(sent)
                 reasonList.append(w + ":" + str(word_frequencies[w]))
                 breakFlag = True
+        #If the word is one of the keywords, make that the reason why the sentence was chosen and print it
         for key in keyWords:
             if(breakFlag):
                 break

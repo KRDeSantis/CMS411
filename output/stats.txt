@@ -1,0 +1,6 @@
+total time : 28 seconds 
+
+documents processed : 1
+
+average time per document : 28.0 seconds 
+

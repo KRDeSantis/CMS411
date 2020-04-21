@@ -15,17 +15,19 @@ import docx2txt
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 
-#change the text to whatever document you want to process.
-document1 = docx2txt.process("Copy of Sources Sought Synopsis Manuals 8 Jan 2020.docx")#### File location
+#The document to process. Unless the file is in tha same directory as the program, it can take a second variable that is the path of the file
+document1 = docx2txt.process("(Edited) 02 - DRAFT_6_SUAS_Engineering_Services_Sample_TO_08Nov19 (Task Order 0 (1)", "C:/Users/Kristen/Documents/GitHub/CMS411/Documents/")#### File location
 
 
-
+#Stopwords are words that are so common that they add little to nothing to the information or context
+#of the speech. Removing these is as simple as making sure that we have a list of stop words,
+#and making sure they aren't in it.
 stopwords = list(STOP_WORDS)
 
-len(stopwords)
-
+#Load in the specific library of words with vectors
 nlp = spacy.load('en_core_web_md')
 
+#Run the document through the Natural language Processing function
 docx = nlp(document1)
 
 #Creates a list of non-stopwords and adds a counter for
