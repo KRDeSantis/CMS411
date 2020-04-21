@@ -1,6 +1,6 @@
 '''
-Ask Ethan if he wants this deleted
-Looks exactly the same as the working one just without folder stuff
+This is an earlier version of the most current working version summarizer.
+There are comments in the most up to date version describing how it works.
 '''
 
 
